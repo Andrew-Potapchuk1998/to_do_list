@@ -1,0 +1,31 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'todo_app/main.css' %}">
+</head>
+<body>
+    <h1>My To-Do List</h1>
+    <div class="container">
+        <form action="/add_todo_item/" method="post">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="Add a new task">
+            <input type="submit" value="Add Task">
+        </form>
+        <ul>
+            {% for item in all_items %}
+            <li>
+                {{ item.content }}
+                <form class="delete-form" action="/delete_todo_item/{{ item.id }}/" method="post">
+                    {% csrf_token %}
+                    <button class="delete-button" type="submit">Delete</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
